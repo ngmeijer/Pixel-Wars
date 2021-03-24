@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,28 +6,56 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private LineController line;
-    private int _index;
+    [SerializeField] private float moveSpeed = 5f;
+    private int index;
 
     public delegate void OnArriveLastPoint();
 
-    public OnArriveLastPoint onArrive;
+    public static OnArriveLastPoint onArrive;
+    private float timer;
+    private bool moveToNewPoint;
+    private Vector3 newTarget;
+
+    private List<Vector3> listOfPoints = new List<Vector3>();
 
     private void Start()
     {
         LineController.onPathDrawn += setDestination;
     }
 
-    private IEnumerator setDestination(List<Vector3> pDestination)
+    private void Update()
     {
-        Debug.Log("Moving player to new destination.");
-
-        while (transform.position != pDestination[_index])
+        if (moveToNewPoint)
         {
-            transform.Translate(pDestination[_index]);
+            float step = moveSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, newTarget, step);
+
+            if ((Vector2.Distance(transform.position, newTarget) < 0.001f))
+            {
+                if (newTarget == listOfPoints[listOfPoints.Count - 1])
+                {
+                    moveToNewPoint = false;
+                    onArrive?.Invoke();
+                }
+                else
+                {
+                    index++;
+                    newTarget = listOfPoints[index];
+                }
+            }
         }
+    }
 
-        _index++;
+    private void setDestination(List<Vector3> pDestinations)
+    {
+        newTarget = new Vector3(pDestinations[0].x, pDestinations[0].y, 0f);
+        listOfPoints = pDestinations;
+        index = 0;
+        moveToNewPoint = true;
+    }
 
-        yield return null;
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, newTarget);
     }
 }
