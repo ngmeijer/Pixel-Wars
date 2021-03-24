@@ -53,9 +53,4 @@ public class PlayerMovement : MonoBehaviour
         index = 0;
         moveToNewPoint = true;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, newTarget);
-    }
 }

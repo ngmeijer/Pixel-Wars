@@ -8,21 +8,23 @@ public class LineController : MonoBehaviour
 {
     private LineRenderer renderer;
     [SerializeField] private List<Vector3> points = new List<Vector3>();
-    [SerializeField] private float _updateInterval = 0.2f;
+    [SerializeField] private float _updateInterval = 0.1f;
     [SerializeField] private Transform Player;
-    private float _timer;
-    private Camera _cam;
+    private float timer;
+    private Camera cam;
     public Vector3 Offset;
 
     public delegate void OnPathDrawn(List<Vector3> pPosition);
 
     public static OnPathDrawn onPathDrawn;
+    private bool selectedUnits;
 
     private void Awake()
     {
         renderer = GetComponent<LineRenderer>();
-        _cam = Camera.main;
+        cam = Camera.main;
         PlayerMovement.onArrive += clearWaypointList;
+        LegionUnitSelector.OnUnitsSelectDone += activateMovement;
 
         renderer.SetPosition(0, Player.position);
         points.Add(renderer.GetPosition(0));
@@ -32,7 +34,6 @@ public class LineController : MonoBehaviour
     {
         points.Clear();
         renderer.positionCount = 1;
-        points.Add(renderer.GetPosition(0));
     }
 
     private void Update()
@@ -40,37 +41,38 @@ public class LineController : MonoBehaviour
         handleLineDrawingInput();
     }
 
+    private void activateMovement(List<GameObject> pUnitsSelected)
+    {
+        selectedUnits = true;
+        Debug.Log("selected units!");
+    }
+
     private void handleLineDrawingInput()
     {
-        _timer += Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if ((Input.GetMouseButton(1)) && (_timer >= _updateInterval) && (renderer.positionCount >= 1))
+        if ((Input.GetMouseButton(1)) && (timer >= _updateInterval) && (renderer.positionCount >= 1))
         {
-            Vector3 mousePosition = Input.mousePosition;
-            Vector3 worldMousePos = _cam.ScreenToWorldPoint(mousePosition);
+            if (selectedUnits)
+            {
+                Vector3 mousePosition = Input.mousePosition;
+                Vector3 worldMousePos = cam.ScreenToWorldPoint(mousePosition);
 
-            Vector3 correctPosition = new Vector3(worldMousePos.x, worldMousePos.y, 0f);
-            points.Add(correctPosition);
+                Vector3 correctPosition = new Vector3(worldMousePos.x, worldMousePos.y, 0f);
+                points.Add(correctPosition);
 
-            renderer.positionCount += 1;
+                renderer.positionCount += 1;
 
-            renderer.SetPosition(0, Player.position);
-            renderer.SetPosition(renderer.positionCount - 1, correctPosition);
-            _timer = 0f;
+                renderer.SetPosition(0, Player.position);
+                renderer.SetPosition(renderer.positionCount - 1, correctPosition);
+                timer = 0f;
+            }
         }
 
         if (Input.GetMouseButtonUp(1) && points.Count >= 1)
         {
             onPathDrawn?.Invoke(points);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        foreach (Vector3 point in points)
-        {
-            Vector3 newPoint = new Vector3(point.x, point.y, 0f);
-            Gizmos.DrawCube(newPoint, new Vector3(0.5f, 0.5f, 0.5f));
+            selectedUnits = false;
         }
     }
 }
