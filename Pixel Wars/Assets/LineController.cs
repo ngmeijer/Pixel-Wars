@@ -23,8 +23,8 @@ public class LineController : MonoBehaviour
     {
         renderer = GetComponent<LineRenderer>();
         cam = Camera.main;
-        PlayerMovement.onArrive += clearWaypointList;
-        LegionUnitSelector.OnUnitsSelectDone += activateMovement;
+        //PlayerMovement.onArrive += clearWaypointList;
+        //LegionUnitSelector.OnUnitsSelectDone += activateMovement;
 
         renderer.SetPosition(0, Player.position);
         points.Add(renderer.GetPosition(0));
@@ -58,7 +58,7 @@ public class LineController : MonoBehaviour
                 Vector3 mousePosition = Input.mousePosition;
                 Vector3 worldMousePos = cam.ScreenToWorldPoint(mousePosition);
 
-                Vector3 correctPosition = new Vector3(worldMousePos.x, worldMousePos.y, 0f);
+                Vector3 correctPosition = new Vector3(worldMousePos.x, 0f, worldMousePos.z);
                 points.Add(correctPosition);
 
                 renderer.positionCount += 1;
