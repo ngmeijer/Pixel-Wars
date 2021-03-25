@@ -23,11 +23,8 @@ public class LineController : MonoBehaviour
     {
         renderer = GetComponent<LineRenderer>();
         cam = Camera.main;
-        //PlayerMovement.onArrive += clearWaypointList;
-        //LegionUnitSelector.OnUnitsSelectDone += activateMovement;
-
-        renderer.SetPosition(0, Player.position);
-        points.Add(renderer.GetPosition(0));
+        LegionUnitSelector.onArmyGathered += handleLineDrawingInput;
+        PlayerMovement.onArrive += clearWaypointList;
     }
 
     private void clearWaypointList()
@@ -41,32 +38,24 @@ public class LineController : MonoBehaviour
         handleLineDrawingInput();
     }
 
-    private void activateMovement(List<GameObject> pUnitsSelected)
-    {
-        selectedUnits = true;
-        Debug.Log("selected units!");
-    }
-
     private void handleLineDrawingInput()
     {
         timer += Time.deltaTime;
 
         if ((Input.GetMouseButton(1)) && (timer >= _updateInterval) && (renderer.positionCount >= 1))
         {
-            if (selectedUnits)
-            {
-                Vector3 mousePosition = Input.mousePosition;
-                Vector3 worldMousePos = cam.ScreenToWorldPoint(mousePosition);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10f;
 
-                Vector3 correctPosition = new Vector3(worldMousePos.x, 0f, worldMousePos.z);
-                points.Add(correctPosition);
+            Vector3 worldMousePos = cam.ScreenToWorldPoint(mousePos);
+            Vector3 correctPos = new Vector3(worldMousePos.x, 0f, worldMousePos.z);
+            points.Add(correctPos);
 
-                renderer.positionCount += 1;
+            renderer.positionCount += 1;
 
-                renderer.SetPosition(0, Player.position);
-                renderer.SetPosition(renderer.positionCount - 1, correctPosition);
-                timer = 0f;
-            }
+            renderer.SetPosition(0, new Vector3(Player.position.x, 0f, Player.position.z));
+            renderer.SetPosition(renderer.positionCount - 1, correctPos);
+            timer = 0f;
         }
 
         if (Input.GetMouseButtonUp(1) && points.Count >= 1)

@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private bool moveToNewPoint;
     private Vector3 newTarget;
 
-    private List<Vector3> listOfPoints = new List<Vector3>();
+    [SerializeField] private List<Vector3> listOfPoints = new List<Vector3>();
 
     private void Start()
     {
