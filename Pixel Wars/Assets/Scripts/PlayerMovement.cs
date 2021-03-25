@@ -46,9 +46,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void stopMovement()
+    {
+        moveToNewPoint = false;
+    }
+
     private void setDestination(List<Vector3> pDestinations)
     {
-        newTarget = new Vector3(pDestinations[0].x, 0f, pDestinations[0].z);
+        newTarget = pDestinations[0];
         listOfPoints = pDestinations;
         index = 0;
         moveToNewPoint = true;
