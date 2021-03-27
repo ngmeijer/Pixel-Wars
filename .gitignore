@@ -25,6 +25,12 @@
 # Visual Studio cache directory
 .vs/
 
+
+
+//Necessary for Rider
+!.idea/indexLayout.xml
+!.idea/vcs.xml
+
 # Gradle cache directory
 .gradle/
 
