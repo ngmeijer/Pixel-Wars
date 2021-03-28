@@ -596,7 +596,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 951578123}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TweenFade, Assembly-CSharp
         m_MethodName: TweenFadeSceneOut
         m_Mode: 4
@@ -729,7 +729,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 951578123}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TweenFade, Assembly-CSharp
         m_MethodName: TweenFadeSceneOut
         m_Mode: 3
@@ -868,10 +868,9 @@ GameObject:
   - component: {fileID: 951578121}
   - component: {fileID: 951578125}
   - component: {fileID: 951578124}
-  - component: {fileID: 951578123}
   - component: {fileID: 951578122}
   m_Layer: 5
-  m_Name: Fade
+  m_Name: FadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -908,19 +907,6 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &951578123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951578120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf1fec9b26ba441428dfdad2b0e0643f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rect: {fileID: 951578121}
 --- !u!114 &951578124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2053,3 +2039,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112070865}
   m_CullTransparentMesh: 1
+--- !u!1 &2126400027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126400029}
+  - component: {fileID: 2126400028}
+  m_Layer: 0
+  m_Name: FadeHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2126400028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126400027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1fec9b26ba441428dfdad2b0e0643f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2126400029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126400027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
