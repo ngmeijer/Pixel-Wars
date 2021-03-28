@@ -7,6 +7,8 @@ using UnityEngine;
 public class LegionUnitSelector : MonoBehaviour
 {
     private RaycastHit hit;
+    private LineRenderer highlightAreaRenderer;
+    private int highlightIndex = 0;
 
     [SerializeField] private Transform selectedUnitParent;
     [SerializeField] private Transform unselectedUnitParent;
@@ -21,6 +23,7 @@ public class LegionUnitSelector : MonoBehaviour
     {
         PlayerMovement.onArrive += clearUnitSelection;
         LegionSpawner.onLegionUnitSpawned += handleComponentCaching;
+        highlightAreaRenderer = GetComponent<LineRenderer>();
     }
 
     private void Update()
@@ -37,6 +40,7 @@ public class LegionUnitSelector : MonoBehaviour
             {
                 if (!listOfActiveUnits.Contains(hit.transform.gameObject))
                 {
+                    enableUnitSelectionHighlight(hit.transform.position);
                     hit.transform.SetParent(selectedUnitParent);
                     listOfActiveUnits.Add(hit.transform.gameObject);
                 }
@@ -50,12 +54,27 @@ public class LegionUnitSelector : MonoBehaviour
         {
             listOfActiveUnits[index].transform.SetParent(unselectedUnitParent);
         }
+
         listOfActiveUnits.Clear();
     }
 
     private void handleComponentCaching(GameObject pUnit)
     {
         listOfExistingUnits.Add(pUnit);
-        Debug.Log("caching components.");
+    }
+
+    private void enableUnitSelectionHighlight(Vector3 pPosition)
+    {
+        highlightAreaRenderer.positionCount++;
+
+        Vector3 correctPos = new Vector3(pPosition.x, 0.5f, pPosition.z);
+        highlightAreaRenderer.SetPosition(highlightIndex, correctPos);
+        highlightIndex++;
+    }
+
+    private void enableUnitSelectionHighlight()
+    {
+        highlightIndex = 0;
+        highlightAreaRenderer.positionCount = 1;
     }
 }
