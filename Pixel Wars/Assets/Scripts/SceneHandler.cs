@@ -9,26 +9,10 @@ public class SceneHandler : MonoBehaviour
     public delegate void FadeSceneOutOnLevelSelect();
 
     public static event FadeSceneOutOnLevelSelect fadeOutOnLevelSelect;
-
-    private static SceneHandler instance;
-
-    public static SceneHandler Instance
-    {
-        get { return instance; }
-    }
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-            Destroy(this.gameObject);
-        else instance = this;
-    }
-
+    
     private void Start()
     {
-        SceneManager.sceneLoaded += resetScript;
-        
-        DontDestroyOnLoad(this.gameObject);
+        LevelSelector.onLevelClicked += LoadScene;
     }
 
     public void LoadScene(string pSceneName)
@@ -58,10 +42,8 @@ public class SceneHandler : MonoBehaviour
         SceneManager.LoadScene("Level " + pLevelIndex.ToString());
     }
 
-
-    private void resetScript(Scene pScene, LoadSceneMode pMode)
+    private void OnDestroy()
     {
-        Debug.Log("Subscribing to LevelSelector");
-        LevelSelector.onLevelClicked += LoadScene;
+        LevelSelector.onLevelClicked -= LoadScene;
     }
 }

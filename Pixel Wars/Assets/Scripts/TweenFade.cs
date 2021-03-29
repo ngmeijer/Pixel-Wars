@@ -9,23 +9,11 @@ public class TweenFade : MonoBehaviour
     public static float TweenTime = 1f;
     private RectTransform fadeRectTransform;
     
-    private static TweenFade instance;
-    public static TweenFade Instance { get { return instance; } }
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-            Destroy(this.gameObject);
-        else instance = this;
-    }
-    
     public void Start()
     {
-        resetScript(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        SceneManager.sceneLoaded += resetScript;
+        fadeRectTransform = GameObject.Find("FadeImage").GetComponent<RectTransform>();
         SceneHandler.fadeOutOnLevelSelect += TweenFadeSceneOut;
-        
-        DontDestroyOnLoad(this.gameObject);
+        TweenFadeSceneIn();
     }
 
     public void TweenFadeSceneIn()
@@ -35,13 +23,11 @@ public class TweenFade : MonoBehaviour
     
     public void TweenFadeSceneOut()
     {
-        Debug.Log(fadeRectTransform);
         LeanTween.alpha(fadeRectTransform, 1f, TweenTime);
     }
 
-    private void resetScript(Scene pScene, LoadSceneMode pMode)
+    private void OnDestroy()
     {
-        fadeRectTransform = GameObject.Find("FadeImage").GetComponent<RectTransform>();
-        TweenFadeSceneIn();
+        SceneHandler.fadeOutOnLevelSelect -= TweenFadeSceneOut;
     }
 }

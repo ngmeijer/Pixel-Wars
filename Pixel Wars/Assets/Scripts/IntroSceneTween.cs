@@ -52,8 +52,6 @@ public class IntroSceneTween : MonoBehaviour
 
     private IEnumerator handleBackground()
     {
-        LeanTween.alpha(background, 1f, 0.5f);
-
         yield return new WaitForSeconds(1f);
 
         LeanTween.alpha(background, 0f, 0.5f);
