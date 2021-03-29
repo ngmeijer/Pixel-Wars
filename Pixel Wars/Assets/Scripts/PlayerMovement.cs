@@ -28,9 +28,9 @@ public class PlayerMovement : MonoBehaviour
         if (moveToNewPoint)
         {
             float step = moveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, newTarget, step);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(newTarget.x, transform.position.y, newTarget.z), step);
 
-            if ((Vector2.Distance(transform.position, newTarget) < 0.001f))
+            if ((Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(newTarget.x, 0f, newTarget.z)) < 0.001f))
             {
                 if (newTarget == listOfPoints[listOfPoints.Count - 1])
                 {

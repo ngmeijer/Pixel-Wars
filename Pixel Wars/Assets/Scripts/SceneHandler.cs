@@ -23,10 +23,8 @@ public class SceneHandler : MonoBehaviour
 
     public void LoadScene(int pLevelIndex)
     {
-        Debug.Log("waiting to load level [ METHOD ] before invoking [ COROUTINE ]...");
         fadeOutOnLevelSelect?.Invoke();
         StartCoroutine(loadWithDelay(pLevelIndex));
-        Debug.Log("waiting to load level [ METHOD ] after invoking [ COROUTINE ]...");
     }
 
     private IEnumerator loadWithDelay(string pSceneName)
@@ -40,6 +38,11 @@ public class SceneHandler : MonoBehaviour
         Debug.Log("waiting to load level [ COROUTINE ]...");
         yield return new WaitForSeconds(TweenFade.TweenTime);
         SceneManager.LoadScene("Level " + pLevelIndex.ToString());
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     private void OnDestroy()
