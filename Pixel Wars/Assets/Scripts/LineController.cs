@@ -22,7 +22,6 @@ public class LineController : MonoBehaviour
     {
         renderer = GetComponent<LineRenderer>();
         cam = Camera.main;
-        LegionUnitSelector.onArmyGathered += handleLineDrawingInput;
         PlayerMovement.onArrive += clearWaypointList;
     }
 

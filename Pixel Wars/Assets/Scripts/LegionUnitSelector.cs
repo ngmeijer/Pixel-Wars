@@ -15,6 +15,8 @@ public class LegionUnitSelector : MonoBehaviour
     [SerializeField] private List<GameObject> listOfExistingUnits = new List<GameObject>();
     [SerializeField] private List<GameObject> listOfActiveUnits = new List<GameObject>();
 
+    [SerializeField] private PixelUnit unitProperties;
+    
     public delegate void OnUnitsSelected();
 
     public static event OnUnitsSelected onArmyGathered;
@@ -40,7 +42,6 @@ public class LegionUnitSelector : MonoBehaviour
             {
                 if (!listOfActiveUnits.Contains(hit.transform.gameObject))
                 {
-                    enableUnitSelectionHighlight(hit.transform.position);
                     hit.transform.SetParent(selectedUnitParent);
                     listOfActiveUnits.Add(hit.transform.gameObject);
                 }
@@ -63,18 +64,9 @@ public class LegionUnitSelector : MonoBehaviour
         listOfExistingUnits.Add(pUnit);
     }
 
-    private void enableUnitSelectionHighlight(Vector3 pPosition)
+    private void enableHightlight()
     {
-        highlightAreaRenderer.positionCount++;
-
-        Vector3 correctPos = new Vector3(pPosition.x, 0.5f, pPosition.z);
-        highlightAreaRenderer.SetPosition(highlightIndex, correctPos);
-        highlightIndex++;
+        
     }
-
-    private void enableUnitSelectionHighlight()
-    {
-        highlightIndex = 0;
-        highlightAreaRenderer.positionCount = 1;
-    }
+    
 }
