@@ -9,7 +9,8 @@ public class GridController : MonoBehaviour
     private Material originalMat;
     [SerializeField]private Renderer rend;
     [SerializeField] private Material[] colourMaterials = new Material[2];
-    
+    private int amountOfPlayerUnits;
+    private int amountOfEnemyUnits;
     
     private void Start()
     {
@@ -18,10 +19,26 @@ public class GridController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("EnemyUnit") || other.gameObject.CompareTag("PlayerUnit"))
+        bool enemyHasEntered = false;
+        if (other.gameObject.CompareTag("EnemyUnit"))
+        {
+            amountOfEnemyUnits++;
+            enemyHasEntered = true;
+        }
+
+        bool playerHasEntered = false;
+        if (other.gameObject.CompareTag("PlayerUnit"))
+        {
+            amountOfPlayerUnits++;
+            playerHasEntered = true;
+        }
+        
+        if (playerHasEntered || enemyHasEntered)
         {
             ArmyColour colour = other.gameObject.GetComponent<ArmyColour>();
 
+            
+            
             switch (colour.usedColour)
             {
                 case ArmyColourEnum.GREEN:
@@ -36,9 +53,24 @@ public class GridController : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("EnemyUnit") || other.gameObject.CompareTag("PlayerUnit"))
+        bool enemyHasExited = false;
+        if (other.gameObject.CompareTag("EnemyUnit"))
         {
-            rend.material = originalMat;
+            amountOfEnemyUnits--;
+            enemyHasExited = true;
+        }
+
+        bool playerHasExited = false;
+        if (other.gameObject.CompareTag("PlayerUnit"))
+        {
+            amountOfPlayerUnits--;
+            playerHasExited = true;
+        }
+        
+        if (playerHasExited || enemyHasExited)
+        {
+            if(amountOfPlayerUnits == 0 && amountOfEnemyUnits == 0)
+                rend.material = originalMat;
         }
     }
 }
