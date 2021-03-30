@@ -13,12 +13,11 @@ public class LegionUnitSelector : MonoBehaviour
 
     [SerializeField] private Transform selectedUnitParent;
     [SerializeField] private Transform unselectedUnitParent;
-    [SerializeField] private List<GameObject> listOfExistingUnits = new List<GameObject>();
+    private List<GameObject> listOfExistingUnits = new List<GameObject>();
     [SerializeField] private List<GameObject> listOfActiveUnits = new List<GameObject>();
-
-    [SerializeField] private PixelUnit unitProperties;
-    [SerializeField] private List<Light> listOfExistingUnitLights = new List<Light>();
-    [SerializeField] private List<Light> listOfActiveUnitLights = new List<Light>();
+    
+    private List<Light> listOfExistingUnitLights = new List<Light>();
+    private List<Light> listOfActiveUnitLights = new List<Light>();
 
     private delegate void SelectedUnit();
 
@@ -97,5 +96,4 @@ public class LegionUnitSelector : MonoBehaviour
         
         listOfActiveUnitLights.Clear();
     }
-    
 }

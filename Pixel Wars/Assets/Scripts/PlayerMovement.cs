@@ -30,7 +30,8 @@ public class PlayerMovement : MonoBehaviour
             float step = moveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(newTarget.x, transform.position.y, newTarget.z), step);
 
-            if ((Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(newTarget.x, 0f, newTarget.z)) < 0.001f))
+            Vector3 currentPosition = new Vector3(transform.position.x, 0f, transform.position.z); 
+            if ((Vector3.Distance(currentPosition, newTarget) < 0.001f))
             {
                 if (newTarget == listOfPoints[listOfPoints.Count - 1])
                 {
@@ -53,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void setDestination(List<Vector3> pDestinations)
     {
-        newTarget = pDestinations[0];
+        newTarget = new Vector3(pDestinations[0].x, 0f, pDestinations[0].z);
         listOfPoints = pDestinations;
         index = 0;
         moveToNewPoint = true;
