@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 6186492817236077562}
   - component: {fileID: 448989983874975598}
   - component: {fileID: -2642994170858899395}
+  - component: {fileID: 5150215381691447505}
   m_Layer: 0
   m_Name: '[ LEGION GREEN ]'
   m_TagString: PlayerUnit
@@ -278,6 +279,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usedColour: 0
+--- !u!195 &5150215381691447505
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108816175021604240}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &108816175063872488
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,7 +35,6 @@ public class SceneHandler : MonoBehaviour
 
     private IEnumerator loadWithDelay(int pLevelIndex)
     {
-        Debug.Log("waiting to load level [ COROUTINE ]...");
         yield return new WaitForSeconds(TweenFade.TweenTime);
         SceneManager.LoadScene("Level " + pLevelIndex.ToString());
     }

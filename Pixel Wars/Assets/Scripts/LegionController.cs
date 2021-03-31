@@ -10,23 +10,6 @@ public class LegionController : MonoBehaviour
     private List<PixelUnit> listOfEnemyUnits = new List<PixelUnit>();
     private float timer;
     private int index = 0;
-    
-    private void OnEnable()
-    {
-        switch (pixelProperties.colourEnum)
-        {
-            case ArmyColourEnum.GREEN:
-                break;
-            case ArmyColourEnum.RED:
-                break;
-            case ArmyColourEnum.BLUE:
-                break;
-            case ArmyColourEnum.ORANGE:
-                break;
-            case ArmyColourEnum.PURPLE:
-                break;
-        }
-    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -37,7 +20,7 @@ public class LegionController : MonoBehaviour
                 gameObject.SetActive(false);
                 return;
             }
-            
+
             // PixelUnit properties= other.GetComponent<LegionController>().pixelProperties;
             //
             // timer++;

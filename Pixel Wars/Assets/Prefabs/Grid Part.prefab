@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 65306223381642304}
   - component: {fileID: 1104978491655103127}
   - component: {fileID: 8689605742551896082}
-  - component: {fileID: 220979290}
   m_Layer: 0
   m_Name: Grid Part
   m_TagString: Untagged
@@ -114,16 +113,3 @@ MonoBehaviour:
   colourMaterials:
   - {fileID: 2100000, guid: 84c699b9839d0d946b32fdadc3d52b37, type: 2}
   - {fileID: 2100000, guid: d19c9223d489d5b47afbc4352ae7677d, type: 2}
---- !u!65 &220979290
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65306223381642307}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10, y: 2.220446e-16, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
