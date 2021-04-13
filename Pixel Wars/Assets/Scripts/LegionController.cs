@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class LegionController : MonoBehaviour
 {
-    [SerializeField] private PixelUnit armyProperties;
+    [SerializeField] private ArmyUnit armyProperties;
     [SerializeField] private List<GameObject> listOfPixels = new List<GameObject>();
 
     private List<LegionController> listOfEnemyUnits = new List<LegionController>();

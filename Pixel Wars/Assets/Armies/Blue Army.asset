@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ebeec965dff394591f99fd53e8ef9d, type: 3}
   m_Name: Blue Army
   m_EditorClassIdentifier: 
-  colourEnum: 0
-  RespawnRate: 1
+  ColourEnum: 0
   BattleMode: 0
+  RespawnRate: 1
   AttackSpeed: 1
+  BaseHealth: 0
+  MaxAmountOfUnits: 0
+  LegionPrefab: {fileID: 108816175021604240, guid: a333bd34c50c5ff4b8fef2c591d73bf1, type: 3}

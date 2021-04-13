@@ -12,14 +12,12 @@ public enum BATTLE_MODE
 
 public class LegionSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject unitPrefab;
+    public ArmyUnit armyProperties;
     [SerializeField] private Transform spawnedUnitsParent;
     [SerializeField] private Transform spawnpointsParent;
-    [SerializeField] [Range(0.5f, 10f)] private float respawnRate = 1f;
     private List<Transform> listOfSpawnpoints = new List<Transform>();
 
     private int currentAmountOfUnits;
-    [SerializeField] private int maxAmountOfUnits;
 
     private void Start()
     {
@@ -37,13 +35,13 @@ public class LegionSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(respawnRate);
+            yield return new WaitForSeconds(armyProperties.RespawnRate);
 
-            if (currentAmountOfUnits < maxAmountOfUnits)
+            if (currentAmountOfUnits < armyProperties.MaxAmountOfUnits)
             {
-                //Convert to object pool
+                //TODO Convert to object pool!
                 int randomIndex = Random.Range(0, listOfSpawnpoints.Count - 1);
-                Instantiate(unitPrefab, listOfSpawnpoints[randomIndex].position, Quaternion.identity, spawnedUnitsParent);
+                Instantiate(armyProperties.LegionPrefab, listOfSpawnpoints[randomIndex].position, Quaternion.identity, spawnedUnitsParent);
                 currentAmountOfUnits++;
             }
         }
