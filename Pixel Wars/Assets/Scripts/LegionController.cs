@@ -11,7 +11,6 @@ public class LegionController : MonoBehaviour
 
     private List<LegionController> listOfEnemyUnits = new List<LegionController>();
     private float attackTimer;
-    private int index = 0;
 
     public void TakeDamage(out bool pHasDied)
     {
