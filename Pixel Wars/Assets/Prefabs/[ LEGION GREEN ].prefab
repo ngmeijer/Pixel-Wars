@@ -240,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f28b4db5f8dce4db482ece734279a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelProperties: {fileID: 11400000, guid: caf9a0e105a3de1418950741b6a2728e, type: 2}
-  arrayOfPixels:
+  armyProperties: {fileID: 11400000, guid: caf9a0e105a3de1418950741b6a2728e, type: 2}
+  listOfPixels:
   - {fileID: 108816176396133494}
   - {fileID: 108816176473053668}
   - {fileID: 108816175007210480}

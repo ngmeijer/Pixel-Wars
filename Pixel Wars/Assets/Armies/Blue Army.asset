@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ebeec965dff394591f99fd53e8ef9d, type: 3}
   m_Name: Blue Army
   m_EditorClassIdentifier: 
-  ArmyColour: {r: 0, g: 0.45262766, b: 1, a: 0}
+  colourEnum: 0
   RespawnRate: 1
   BattleMode: 0
-  AttackSpeed: 0.5
+  AttackSpeed: 1

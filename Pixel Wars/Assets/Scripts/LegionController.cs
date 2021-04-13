@@ -2,34 +2,80 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LegionController : MonoBehaviour
-{ 
-    public PixelUnit pixelProperties;
-    [SerializeField] private GameObject[] arrayOfPixels;
-    private List<PixelUnit> listOfEnemyUnits = new List<PixelUnit>();
-    private float timer;
+{
+    [SerializeField] private PixelUnit armyProperties;
+    [SerializeField] private List<GameObject> listOfPixels = new List<GameObject>();
+
+    private List<LegionController> listOfEnemyUnits = new List<LegionController>();
+    private float attackTimer;
     private int index = 0;
 
-    private void OnTriggerStay(Collider other)
+    public void TakeDamage(out bool pHasDied)
     {
-        if (other.gameObject.CompareTag("EnemyUnit") || other.gameObject.CompareTag("PlayerUnit"))
-        {
-            if (index > arrayOfPixels.Length)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
+        int randomIndex = Random.Range(0, listOfPixels.Count);
+        Destroy(listOfPixels[randomIndex]);
+        listOfPixels[randomIndex] = null;
+        listOfPixels.RemoveAt(randomIndex);
 
-            // PixelUnit properties= other.GetComponent<LegionController>().pixelProperties;
-            //
-            // timer++;
-            // if (timer >= properties.AttackSpeed)
-            // {
-            //     arrayOfPixels[index].gameObject.SetActive(false);
-            //     index++;
-            //     timer = 0;
-            // }
+        pHasDied = checkDeathConditions();
+    }
+
+    private bool checkDeathConditions()
+    {
+        if (listOfPixels.Count <= 0)
+        {
+            Destroy(this);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void OnTriggerEnter(Collider pOther)
+    {
+        if (pOther.gameObject.CompareTag("EnemyUnit"))
+        {
+            if (pOther.gameObject.TryGetComponent(out LegionController controller))
+            {
+                listOfEnemyUnits.Add(controller);
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider pOther)
+    {
+        if (pOther.gameObject.CompareTag("EnemyUnit"))
+        {
+            attackTimer += Time.deltaTime;
+
+            if (attackTimer >= armyProperties.AttackSpeed)
+            {
+                if (listOfEnemyUnits.Count <= 0)
+                    return;
+
+                for (int i = 0; i < listOfEnemyUnits.Count; i++)
+                {
+                    bool hasKilledUnit = false;
+
+                    if (listOfEnemyUnits[i] != null)
+                        listOfEnemyUnits[i].TakeDamage(out hasKilledUnit);
+
+                    if (listOfEnemyUnits[i] == null || hasKilledUnit)
+                        listOfEnemyUnits.RemoveAt(i);
+                }
+
+                attackTimer = 0;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider pOther)
+    {
+        if (pOther.gameObject.CompareTag("EnemyUnit"))
+        {
         }
     }
 }
