@@ -12,10 +12,6 @@ public enum BATTLE_MODE
 
 public class LegionSpawner : MonoBehaviour
 {
-    public delegate void OnSpawnUnit(GameObject pUnit);
-
-    public static OnSpawnUnit onLegionUnitSpawned;
-
     [SerializeField] private GameObject unitPrefab;
     [SerializeField] private Transform spawnedUnitsParent;
     [SerializeField] private Transform spawnpointsParent;
@@ -48,6 +44,7 @@ public class LegionSpawner : MonoBehaviour
                 //Convert to object pool
                 int randomIndex = Random.Range(0, listOfSpawnpoints.Count - 1);
                 Instantiate(unitPrefab, listOfSpawnpoints[randomIndex].position, Quaternion.identity, spawnedUnitsParent);
+                currentAmountOfUnits++;
             }
         }
     }

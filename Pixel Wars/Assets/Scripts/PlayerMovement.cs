@@ -1,93 +1,96 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int index;
+    private int pointIndex;
+
     public delegate void OnArriveLastPoint();
+
     public static OnArriveLastPoint onArrive;
 
-    public delegate void OnUnitSelect(NavMeshAgent pAgent);
-
-    public static OnUnitSelect onSelect;
-    
     private float timer;
     private bool moveToNewPoint;
     private Vector3 newTarget;
 
     [SerializeField] private List<Vector3> listOfPoints = new List<Vector3>();
-    private List<NavMeshAgent> agents = new List<NavMeshAgent>();
+    [SerializeField] private List<NavMeshAgent> agents = new List<NavMeshAgent>();
 
     private void Start()
     {
-        LineController.onPathDrawn += setDestination;
-        //TODO : On unit spawned, add navmeshagent to list. 
-
-        onSelect += addAgents;
+        LineController.onPathDrawn += startMovement;
+        LegionUnitSelector.onUnitSelect += addAgents;
     }
 
     private void Update()
     {
-        if (moveToNewPoint)
+        if (!moveToNewPoint || agents.Count <= 0)
+            return;
+
+        if (listOfPoints.Count <= 0)
+            return;
+
+        if (newTarget == listOfPoints[listOfPoints.Count - 1])
         {
-            foreach (NavMeshAgent agent in agents)
-            {
-                if (agent.pathStatus == NavMeshPathStatus.PathComplete)
-                {
-                    Debug.Log("moving agent");
-                    if (newTarget == listOfPoints[listOfPoints.Count - 1])
-                    {
-                        moveToNewPoint = false;
-                        onArrive?.Invoke();
-                    }
-                    else
-                    {
-                        index++;
-                        newTarget = listOfPoints[index];
-                        agent.SetDestination(newTarget);
-                    }
-                }
-            }
+            stopMovement();
+            return;
         }
 
-            // float step = moveSpeed * Time.deltaTime;
-            // transform.position = Vector3.MoveTowards(transform.position, new Vector3(newTarget.x, transform.position.y, newTarget.z), step);
-            //
-            // Vector3 currentPosition = new Vector3(transform.position.x, 0f, transform.position.z); 
-            // if ((Vector3.Distance(currentPosition, newTarget) < 0.001f))
-            // {
-            //     if (newTarget == listOfPoints[listOfPoints.Count - 1])
-            //     {
-            //         moveToNewPoint = false;
-            //         onArrive?.Invoke();
-            //     }
-            //     else
-            //     {
-            //         index++;
-            //         newTarget = listOfPoints[index];
-            //     }
-            // }
+        setNewPointDestination();
     }
 
+    //---------------------------------------------------------------------------------------------------
+    //-----------------------------------------stopMovement();-------------------------------------------
+    //---------------------------------------------------------------------------------------------------
     private void stopMovement()
     {
         moveToNewPoint = false;
+        onArrive?.Invoke();
+        agents.Clear();
+        pointIndex = 0;
+        listOfPoints.Clear();
     }
 
-    private void setDestination(List<Vector3> pDestinations)
+    //---------------------------------------------------------------------------------------------------
+    //-----------------------------------startMovement(List<Vector3> pPosition)--------------------------
+    //---------------------------------------------------------------------------------------------------
+    private void startMovement(List<Vector3> pPosition)
     {
-        newTarget = new Vector3(pDestinations[0].x, 0f, pDestinations[0].z);
-        listOfPoints = pDestinations;
-        index = 0;
         moveToNewPoint = true;
+        listOfPoints = pPosition;
     }
 
-    private void addAgents(NavMeshAgent pAgent)
+    //----------------------------------------------------------------------------------------------------
+    //-----------------------------------------setNewPointDestination();----------------------------------
+    //----------------------------------------------------------------------------------------------------
+    private void setNewPointDestination()
     {
-        agents.Add(pAgent);
+        int lastIndex = pointIndex;
+        bool increasePointIndex = false;
+
+        for (int agentIndex = 0; agentIndex < agents.Count; agentIndex++)
+        {
+            newTarget = new Vector3(listOfPoints[lastIndex + 1].x, listOfPoints[lastIndex + 1].y,
+                listOfPoints[lastIndex + 1].z);
+            agents[agentIndex].SetDestination(newTarget);
+
+            if (Vector3.Distance(agents[agentIndex].transform.position, newTarget) < 0.5f)
+            {
+                increasePointIndex = true;
+            }
+        }
+
+        if (increasePointIndex)
+            pointIndex++;
+    }
+
+    //-----------------------------------------------------------------------------------------------------
+    //-------------------------------addAgents(GameObject pObject)-----------------------------------------
+    //-----------------------------------------------------------------------------------------------------
+    private void addAgents(GameObject pObject)
+    {
+        NavMeshAgent agent = pObject.GetComponent<NavMeshAgent>();
+        agents.Add(agent);
     }
 }

@@ -28,7 +28,7 @@ public class LineController : MonoBehaviour
     private void clearWaypointList()
     {
         points.Clear();
-        renderer.positionCount = 1;
+        renderer.positionCount = 0;
     }
 
     private void Update()
@@ -40,8 +40,8 @@ public class LineController : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (Input.GetMouseButton(1))
-            if ((timer >= _updateInterval) && (renderer.positionCount >= 1))
+        if (Input.GetMouseButton(1) && SelectedUnitsParent.childCount != 0)
+            if ((timer >= _updateInterval) && (renderer.positionCount >= 0))
             {
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = 10f;
@@ -52,7 +52,6 @@ public class LineController : MonoBehaviour
 
                 renderer.positionCount += 1;
 
-                renderer.SetPosition(0, new Vector3(SelectedUnitsParent.position.x, 0f, SelectedUnitsParent.position.z));
                 renderer.SetPosition(renderer.positionCount - 1, correctPos);
                 timer = 0f;
             }
@@ -62,6 +61,7 @@ public class LineController : MonoBehaviour
             {
                 onPathDrawn?.Invoke(points);
                 selectedUnits = false;
+                renderer.positionCount = 0;
             }
     }
 }

@@ -20,21 +20,18 @@ public class LegionUnitSelector : MonoBehaviour
     private List<Light> listOfExistingUnitLights = new List<Light>();
     private List<Light> listOfActiveUnitLights = new List<Light>();
 
-    private delegate void SelectedUnit(GameObject pUnit);
-
-    private event SelectedUnit onUnitSelect;
+    public delegate void SelectedUnit(GameObject pUnit);
+    public static event SelectedUnit onUnitSelect;
 
     private void Start()
     {
         PlayerMovement.onArrive += clearUnitSelection;
         PlayerMovement.onArrive += disableUnitHighlight;
         
-        LegionSpawner.onLegionUnitSpawned += handleComponentCaching;
-        
         highlightAreaRenderer = GetComponent<LineRenderer>();
 
         onUnitSelect += enableUnitHighlight;
-        onUnitSelect += handleNavAgent;
+        onUnitSelect += transferUnitToSelectionParent;
     }
 
     private void Update()
@@ -51,11 +48,7 @@ public class LegionUnitSelector : MonoBehaviour
             {
                 if (!listOfActiveUnits.Contains(hit.transform.gameObject))
                 {
-                    hit.transform.SetParent(selectedUnitParent);
-                    listOfActiveUnits.Add(hit.transform.gameObject);
-                    listOfActiveUnitLights.Add(hit.transform.gameObject.GetComponentInChildren<Light>());
-                    
-                    onUnitSelect.Invoke(hit.transform.gameObject);
+                    onUnitSelect?.Invoke(hit.transform.gameObject);
                 }
             }
         }
@@ -80,18 +73,13 @@ public class LegionUnitSelector : MonoBehaviour
     {
         Light light = pUnit.GetComponentInChildren<Light>();
         light.enabled = true;
-        
-        // foreach (Light light in listOfActiveUnitLights)
-        // {
-        //     light.enabled = true;
-        // }
     }
 
-    private void handleNavAgent(GameObject pUnit)
+    private void transferUnitToSelectionParent(GameObject pUnit)
     {
-        Debug.Log("getting agent");
-        NavMeshAgent agent = pUnit.GetComponent<NavMeshAgent>();
-        PlayerMovement.onSelect.Invoke(agent);
+        hit.transform.SetParent(selectedUnitParent);
+        listOfActiveUnits.Add(hit.transform.gameObject);
+        listOfActiveUnitLights.Add(hit.transform.gameObject.GetComponentInChildren<Light>());
     }
 
     private void disableUnitHighlight()
