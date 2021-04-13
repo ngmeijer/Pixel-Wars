@@ -1,15 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TweenFade : MonoBehaviour
 {
-    public static float TweenTime = 1f;
+    public static float TweenTime = 0.7f;
     private RectTransform fadeRectTransform;
     
-    public void Start()
+    public void OnEnable()
     {
         fadeRectTransform = GameObject.Find("FadeImage").GetComponent<RectTransform>();
         SceneHandler.fadeOutOnLevelSelect += TweenFadeSceneOut;
@@ -18,6 +14,7 @@ public class TweenFade : MonoBehaviour
 
     public void TweenFadeSceneIn()
     {
+        Debug.Log("fading scene in");
         LeanTween.alpha(fadeRectTransform, 0f, TweenTime);
     }
     

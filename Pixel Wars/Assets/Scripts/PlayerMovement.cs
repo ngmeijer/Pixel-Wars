@@ -70,6 +70,12 @@ public class PlayerMovement : MonoBehaviour
 
         for (int agentIndex = 0; agentIndex < agents.Count; agentIndex++)
         {
+            if (agents[agentIndex].pathStatus == NavMeshPathStatus.PathInvalid ||
+                agents[agentIndex].pathStatus == NavMeshPathStatus.PathPartial)
+            {
+                stopMovement();
+            }
+            
             newTarget = new Vector3(listOfPoints[lastIndex + 1].x, listOfPoints[lastIndex + 1].y,
                 listOfPoints[lastIndex + 1].z);
             agents[agentIndex].SetDestination(newTarget);
