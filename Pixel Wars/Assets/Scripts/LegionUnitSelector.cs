@@ -9,8 +9,6 @@ using UnityEngine.Serialization;
 public class LegionUnitSelector : MonoBehaviour
 {
     private RaycastHit hit;
-    private LineRenderer highlightAreaRenderer;
-    private int highlightIndex = 0;
 
     [SerializeField] private Transform selectedUnitParent;
     [SerializeField] private Transform unselectedUnitParent;
@@ -26,10 +24,7 @@ public class LegionUnitSelector : MonoBehaviour
     private void Start()
     {
         PlayerMovement.onArrive += clearUnitSelection;
-        PlayerMovement.onArrive += disableUnitHighlight;
         
-        highlightAreaRenderer = GetComponent<LineRenderer>();
-
         onUnitSelect += enableUnitHighlight;
         onUnitSelect += transferUnitToSelectionParent;
     }
@@ -54,14 +49,16 @@ public class LegionUnitSelector : MonoBehaviour
         }
     }
 
-    private void clearUnitSelection()
+    private IEnumerator clearUnitSelection()
     {
-        disableUnitHighlight();
+        StartCoroutine(disableUnitHighlight());
         for (int index = 0; index < listOfActiveUnits.Count; index++)
         {
             listOfActiveUnits[index].transform.SetParent(unselectedUnitParent);
         }
         listOfActiveUnits.Clear();
+
+        yield break;
     }
 
     private void handleComponentCaching(GameObject pUnit)
@@ -82,13 +79,15 @@ public class LegionUnitSelector : MonoBehaviour
         listOfActiveUnitLights.Add(hit.transform.gameObject.GetComponentInChildren<Light>());
     }
 
-    private void disableUnitHighlight()
+    private IEnumerator disableUnitHighlight()
     {
+        yield return new WaitForSeconds(1f);
         foreach (Light light in listOfActiveUnitLights)
         {
             light.enabled = false;
         }
         
         listOfActiveUnitLights.Clear();
+        yield break;
     }
 }

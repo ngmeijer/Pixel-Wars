@@ -1,15 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int pointIndex;
-
-    public delegate void OnArriveLastPoint();
-
+    public delegate IEnumerator OnArriveLastPoint();
     public static OnArriveLastPoint onArrive;
 
+    private int pointIndex;
     private float timer;
     private bool moveToNewPoint;
     private Vector3 newTarget;
@@ -46,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private void stopMovement()
     {
         moveToNewPoint = false;
-        onArrive?.Invoke();
+        StartCoroutine(onArrive());
         agents.Clear();
         pointIndex = 0;
         listOfPoints.Clear();
@@ -75,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
                 listOfPoints[lastIndex + 1].z);
             agents[agentIndex].SetDestination(newTarget);
 
-            if (Vector3.Distance(agents[agentIndex].transform.position, newTarget) < 0.5f)
+            if (Vector3.Distance(agents[agentIndex].transform.position, newTarget) < 1.5f)
             {
                 increasePointIndex = true;
             }

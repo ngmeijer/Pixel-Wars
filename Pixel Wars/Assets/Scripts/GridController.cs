@@ -29,6 +29,7 @@ public class GridController : MonoBehaviour
         bool playerHasEntered = false;
         if (other.gameObject.CompareTag("PlayerUnit"))
         {
+            Debug.Log("Player entered grid.");
             amountOfPlayerUnits++;
             playerHasEntered = true;
         }
@@ -37,8 +38,6 @@ public class GridController : MonoBehaviour
         {
             ArmyColour colour = other.gameObject.GetComponent<ArmyColour>();
 
-            
-            
             switch (colour.usedColour)
             {
                 case ArmyColourEnum.GREEN:
@@ -63,6 +62,7 @@ public class GridController : MonoBehaviour
         bool playerHasExited = false;
         if (other.gameObject.CompareTag("PlayerUnit"))
         {
+            Debug.Log("Player exited grid.");
             amountOfPlayerUnits--;
             playerHasExited = true;
         }
