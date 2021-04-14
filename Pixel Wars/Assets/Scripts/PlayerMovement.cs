@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 listOfPoints[lastIndex + 1].z);
             agents[agentIndex].SetDestination(newTarget);
 
-            if (Vector3.Distance(agents[agentIndex].transform.position, newTarget) < 1.5f)
+            if (Vector3.Distance(agents[agentIndex].transform.position, newTarget) < 1f)
             {
                 increasePointIndex = true;
             }

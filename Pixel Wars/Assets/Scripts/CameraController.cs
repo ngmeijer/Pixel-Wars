@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using UnityEngine;
 using Color = UnityEngine.Color;
+using Debug = UnityEngine.Debug;
 
 public class CameraController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector2 size;
 
     [Header("Scroll settings")]
-    [SerializeField] private float scrollSpeed = 2f;
+    [SerializeField] private float scrollSpeed = 3f;
     [SerializeField] private float minHeight = 3f;
     [SerializeField] private float maxHeight = 10f;
     private Camera cam;
@@ -27,8 +29,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        checkInput();
+        //checkInput();
     }
+    
+    #region PC Controls
 
     private void checkInput()
     {
@@ -71,7 +75,67 @@ public class CameraController : MonoBehaviour
 
         cam.orthographicSize -= scroll * scrollSpeed;
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minHeight, maxHeight);
-
     }
     
+    #endregion
+
+    #region Mobile Controls
+    public void StopZoom()
+    {
+        cam.orthographicSize = cam.orthographicSize;
+    }
+    
+    public void ZoomInOnClick()
+    {
+        cam.orthographicSize -= scrollSpeed * Time.deltaTime;
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minHeight, maxHeight);
+    }
+    
+    public void ZoomOutOnClick()
+    {
+        cam.orthographicSize += scrollSpeed * Time.deltaTime;
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minHeight, maxHeight);
+    }
+
+    public void PanDown()
+    {
+        pos = transform.position;
+
+        pos.z -= panSpeed * Time.deltaTime;
+        pos.z = Mathf.Clamp(pos.z, -size.y, size.y);
+        
+        transform.position = pos;
+    }
+
+    public void PanUp()
+    {
+        pos = transform.position;
+
+        pos.z += panSpeed * Time.deltaTime;
+        pos.z = Mathf.Clamp(pos.z, -size.y, size.y);
+        
+        transform.position = pos;
+    }
+    
+    public void PanRight()
+    {
+        pos = transform.position;
+        
+        pos.x += panSpeed * Time.deltaTime;
+        pos.x = Mathf.Clamp(pos.x, -size.x, size.x);
+
+        transform.position = pos;
+    }
+    
+    public void PanLeft()
+    {
+        pos = transform.position;
+
+        pos.x -= panSpeed * Time.deltaTime;
+        pos.x = Mathf.Clamp(pos.x, -size.x, size.x);
+        
+        transform.position = pos;
+    }
+    
+    #endregion
 }
