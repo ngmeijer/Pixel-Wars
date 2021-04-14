@@ -17,5 +17,5 @@ MonoBehaviour:
   RespawnRate: 0.6
   AttackSpeed: 0.7
   BaseHealth: 300
-  MaxAmountOfUnits: -30
+  MaxAmountOfUnits: 3
   LegionPrefab: {fileID: 108816175021604240, guid: a333bd34c50c5ff4b8fef2c591d73bf1, type: 3}
