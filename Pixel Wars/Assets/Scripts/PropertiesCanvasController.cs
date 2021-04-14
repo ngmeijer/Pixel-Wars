@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PropertiesCanvasController : MonoBehaviour
 {
+    [SerializeField] private GameObject propertyContainer;
     [SerializeField] private TextMeshProUGUI armyColourText;
     [SerializeField] private TextMeshProUGUI attackSpeedText;
     [SerializeField] private TextMeshProUGUI baseHealthText;
@@ -19,11 +20,15 @@ public class PropertiesCanvasController : MonoBehaviour
         {
             ArmyUnit army = spawner.armyProperties;
             armyColourText.text = army.ColourEnum.ToString();
-            attackSpeedText.text = army.AttackSpeed.ToString();
-            baseHealthText.text = army.BaseHealth.ToString();
-            respawnRateText.text = army.RespawnRate.ToString();
+            attackSpeedText.text = army.AttackSpeed.ToString() + " / s";
+            baseHealthText.text = army.BaseHealth.ToString() + " HP";
+            respawnRateText.text = army.RespawnRate.ToString() + " unit / s";
         }
-        
-
+    }
+    
+    public void activateCanvas()
+    {
+        Debug.Log("clicking button");
+        LeanTween.scaleY(propertyContainer, 1f, 0.5f);
     }
 }

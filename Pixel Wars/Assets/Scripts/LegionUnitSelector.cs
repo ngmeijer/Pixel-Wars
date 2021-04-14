@@ -61,11 +61,6 @@ public class LegionUnitSelector : MonoBehaviour
         yield break;
     }
 
-    private void handleComponentCaching(GameObject pUnit)
-    {
-        listOfExistingUnits.Add(pUnit);
-    }
-
     private void enableUnitHighlight(GameObject pUnit)
     {
         Light light = pUnit.GetComponentInChildren<Light>();

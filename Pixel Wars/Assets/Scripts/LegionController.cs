@@ -24,9 +24,11 @@ public class LegionController : MonoBehaviour
 
     private bool checkDeathConditions()
     {
+        Debug.Log(listOfPixels.Count);
         if (listOfPixels.Count <= 0)
         {
-            Destroy(this);
+            Debug.Log("Should be destroyed");
+            Destroy(this.gameObject);
             return true;
         }
 
@@ -35,7 +37,7 @@ public class LegionController : MonoBehaviour
 
     private void OnTriggerEnter(Collider pOther)
     {
-        if (pOther.gameObject.CompareTag("EnemyUnit"))
+        if (pOther.gameObject.CompareTag("EnemyUnit") && pOther.transform.parent != this.transform.parent)
         {
             if (pOther.gameObject.TryGetComponent(out LegionController controller))
             {
@@ -75,6 +77,10 @@ public class LegionController : MonoBehaviour
     {
         if (pOther.gameObject.CompareTag("EnemyUnit"))
         {
+            if (pOther.gameObject.TryGetComponent(out LegionController controller))
+            {
+                listOfEnemyUnits.Remove(controller);
+            }
         }
     }
 }

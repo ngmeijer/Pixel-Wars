@@ -37,13 +37,22 @@ public class LegionSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(armyProperties.RespawnRate);
 
+            currentAmountOfUnits = checkLegionAmount();
             if (currentAmountOfUnits < armyProperties.MaxAmountOfUnits)
             {
                 //TODO Convert to object pool!
                 int randomIndex = Random.Range(0, listOfSpawnpoints.Count - 1);
                 Instantiate(armyProperties.LegionPrefab, listOfSpawnpoints[randomIndex].position, Quaternion.identity, spawnedUnitsParent);
-                currentAmountOfUnits++;
             }
         }
+    }
+
+    private int checkLegionAmount()
+    {
+        int count = spawnedUnitsParent.transform.childCount;
+
+        //Main body does not count but is needed under parent to be able to move.
+        count -= 1;
+        return count;
     }
 }
