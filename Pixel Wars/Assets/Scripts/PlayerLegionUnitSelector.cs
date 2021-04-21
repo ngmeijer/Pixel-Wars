@@ -6,18 +6,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class LegionUnitSelector : MonoBehaviour
+public class PlayerLegionUnitSelector : UnitSelector
 {
     private RaycastHit hit;
-
-    [SerializeField] private Transform selectedUnitParent;
-    [SerializeField] private Transform unselectedUnitParent;
-    private List<GameObject> listOfExistingUnits = new List<GameObject>();
-    [SerializeField] private List<GameObject> listOfActiveUnits = new List<GameObject>();
-    
-    private List<Light> listOfExistingUnitLights = new List<Light>();
-    private List<Light> listOfActiveUnitLights = new List<Light>();
-
     public delegate void SelectedUnit(GameObject pUnit);
     public static event SelectedUnit onUnitSelect;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MovementHandler
 {
     public delegate IEnumerator OnArriveLastPoint();
     public static OnArriveLastPoint onArrive;
@@ -14,12 +14,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 newTarget;
 
     [SerializeField] private List<Vector3> listOfPoints = new List<Vector3>();
-    [SerializeField] private List<NavMeshAgent> agents = new List<NavMeshAgent>();
-
+    
     private void Start()
     {
         LineController.onPathDrawn += startMovement;
-        LegionUnitSelector.onUnitSelect += addAgents;
+        PlayerLegionUnitSelector.onUnitSelect += addAgents;
     }
 
     private void Update()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColourEnum: 1
   BattleMode: 1
-  RespawnRate: 0.6
+  RespawnRate: 0.91
   AttackSpeed: 0.7
   BaseHealth: 300
   MaxAmountOfUnits: 3

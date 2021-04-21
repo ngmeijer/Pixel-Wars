@@ -19,6 +19,10 @@ public class LegionSpawner : MonoBehaviour
 
     private int currentAmountOfUnits;
 
+    public delegate void OnUnitSpawnNotify(GameObject pUnit);
+
+    public OnUnitSpawnNotify OnUnitSpawn;
+
     private void Start()
     {
         int amountOfSpawnpoints = spawnpointsParent.childCount;
